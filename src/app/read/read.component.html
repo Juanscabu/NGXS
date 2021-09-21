@@ -1,10 +1,8 @@
-<div class="right" *ngIf="dogs$">
-
-  <h1>Dogs</h1>
-  <ul>
-    <li (click)="delDog(dog.name)" *ngFor="let dog of dogs$ | async">
-      <h2>{{dog.name}}</h2>
-      <img src={{dog.img}} alt="">
-    </li>
-  </ul>
+<div class="horizontal-scroll">
+  <div class="cards">
+      <div (click)="delDog(dog.name)" *ngFor="let dog of dogs$  | async " class="shadow-card card pointer">
+        <span class="title">{{dog.name}}</span>
+        <img src='{{dog.img}}' alt="card">
+      </div>
+  </div>
 </div>

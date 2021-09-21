@@ -7,12 +7,6 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 
-/*
-export class TutorialStateModel {
-  tutorials: Tutorial[] = [];
-}
-
-*/
 export class DogStateModel {
   dogs: Dog[] = [];
 }
@@ -45,7 +39,6 @@ export class DogState {
     return this.dogService.getAllBreeds().pipe(
       tap((data: Dog[]) => {
         const state = getState();
-        console.log(data)
         setState({ ...state, dogs: data});
       }),
     );

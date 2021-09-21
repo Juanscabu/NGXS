@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store, Select } from '@ngxs/store';
 import { Dog } from '../model/dogs.model'
 import { GetDogs, RemoveDog} from '../actions/dogs.actions'
 import { Observable, Subscription } from 'rxjs';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { DogState } from '../states/dogs.state';
 
 @Component({
   selector: 'app-read',
@@ -11,25 +12,35 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
   styleUrls: ['./read.component.css']
 })
 
-export class ReadComponent implements OnInit {
+export class ReadComponent implements OnInit,OnDestroy {
+  listDogs: Dog[] = [];
 
-  dogs$: Observable<Dog[]>
 
-  constructor(private store: Store,private sanitizer: DomSanitizer) {
-      this.dogs$ = this.store.select(state => state.dogs.dogs)
-      this.store.dispatch(new GetDogs);
+  @Select(DogState.getDogs)
+  dogs$!: Observable<Dog[]>;
 
+  dogsSubscription!: Subscription;
+
+  constructor(private store: Store) {
   }
 
-  sanitizeImageUrl(imageUrl: string): SafeUrl {
-    return this.sanitizer.bypassSecurityTrustUrl(imageUrl);
-}
+  ngOnInit() {
+    this.store.dispatch(new GetDogs());
+    this.dogsSubscription = this.dogs$.subscribe(res => {
+       if (res) {
+      this.listDogs = res;}
+    })
+  }
+
+    ngOnDestroy(): void {
+    this.dogsSubscription.unsubscribe();
+  }
+
 
 
   delDog(name: String) {
     this.store.dispatch(new RemoveDog(name))
   }
 
-  ngOnInit() {}
 
 }
