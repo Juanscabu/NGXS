@@ -1,9 +1,3 @@
-
-export interface Tutorial {
-  name: string;
-  url: string;
-}
-
 export interface Dog {
   name: string
   img: string;

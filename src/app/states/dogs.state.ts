@@ -2,10 +2,11 @@
 import { DogService } from '../services/dog.service';
 import { Dog } from '../model/dogs.model';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
-import { AddDog, GetDogs, RemoveDog} from '../actions/dogs.actions'
+import { AddDog, EditDog, GetDogs, RemoveDog} from '../actions/dogs.actions'
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
+import { patch, append, removeItem, insertItem, updateItem } from '@ngxs/store/operators';
 
 export class DogStateModel {
   dogs: Dog[] = [];
@@ -59,34 +60,13 @@ export class DogState {
         })
     }
 
-}
-
-
-/*
-export class TutorialState {
-  @Selector()
-  static getTutorials(state: TutorialStateModel) {
-      return state.tutorials
-  }
-
-  @Action(AddTutorial)
-    add({getState, patchState }: StateContext<TutorialStateModel>, { payload }:AddTutorial) {
-        const state = getState();
-        patchState({
-            tutorials: [...state.tutorials, payload]
-        })
+    @Action(EditDog)
+    updateItem({getState, setState }: StateContext<DogStateModel>, { payload,oldName }:EditDog) {
+        setState(
+          patch({
+            dogs: updateItem<Dog>(item=> item?.name === oldName, patch({ name: payload.name, img: payload.img }))
+          })
+        );
+      }
     }
-
-    @Action(RemoveTutorial)
-    remove({getState, patchState }: StateContext<TutorialStateModel>, { payload }:RemoveTutorial) {
-        patchState({
-            tutorials: getState().tutorials.filter(a => a.name != payload)
-        })
-    }
-
-}
-*/
-
-
-
 

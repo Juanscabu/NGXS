@@ -1,8 +1,11 @@
 <div class="horizontal-scroll">
   <div class="cards">
-      <div (click)="delDog(dog.name)" *ngFor="let dog of dogs$  | async " class="shadow-card card pointer">
+      <div *ngFor="let dog of dogs$  | async " class="shadow-card card pointer">
         <span class="title">{{dog.name}}</span>
-        <img src='{{dog.img}}' alt="card">
+        <img  (click)="delDog(dog.name)" src='{{dog.img}}' alt="card">
+        <button  class="btn btn-primary"  (click)="openDialog(dog)">
+          Edit
+        </button>
       </div>
   </div>
 </div>

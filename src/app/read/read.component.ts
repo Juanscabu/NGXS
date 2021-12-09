@@ -3,8 +3,10 @@ import { Store, Select } from '@ngxs/store';
 import { Dog } from '../model/dogs.model'
 import { GetDogs, RemoveDog} from '../actions/dogs.actions'
 import { Observable, Subscription } from 'rxjs';
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { DogState } from '../states/dogs.state';
+import { MatDialog } from '@angular/material/dialog';
+import { PopUpComponent } from '../pop-up/pop-up.component';
+
 
 @Component({
   selector: 'app-read',
@@ -21,14 +23,15 @@ export class ReadComponent implements OnInit,OnDestroy {
 
   dogsSubscription!: Subscription;
 
-  constructor(private store: Store) {
+  constructor(private store: Store,private  dialogRef : MatDialog) {
   }
 
   ngOnInit() {
     this.store.dispatch(new GetDogs());
     this.dogsSubscription = this.dogs$.subscribe(res => {
        if (res) {
-      this.listDogs = res;}
+      this.listDogs = res;
+    }
     })
   }
 
@@ -40,6 +43,14 @@ export class ReadComponent implements OnInit,OnDestroy {
 
   delDog(name: String) {
     this.store.dispatch(new RemoveDog(name))
+  }
+
+  openDialog(dog:Dog){
+    this.dialogRef.open(PopUpComponent,{
+      data : {
+        dog: dog
+      }
+    });
   }
 
 

@@ -1,0 +1,7 @@
+<h2> Edit dog</h2>
+<form  [formGroup]="editForm">
+  <input formControlName="name" type="text" value="{{image}}" #newImg>
+  <input formControlName="image" type="text" value="{{name}}" #newName>
+  <button (click)="editDog(name,newName.value,newImg.value)" class="btn btn-primary"> Editar</button>
+</form>
+

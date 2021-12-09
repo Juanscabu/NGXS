@@ -8,12 +8,18 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { ReadComponent } from './read/read.component';
 import { CreateComponent } from './create/create.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatDialogModule } from '@angular/material/dialog';
+import { PopUpComponent } from './pop-up/pop-up.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { QuillModule } from 'ngx-quill';
 
 @NgModule({
   declarations: [
     AppComponent,
     ReadComponent,
-    CreateComponent
+    CreateComponent,
+    PopUpComponent,
   ],
   imports: [
     BrowserModule,
@@ -22,8 +28,11 @@ import { CreateComponent } from './create/create.component';
     ]),
     HttpClientModule,
     NgxsReduxDevtoolsPluginModule.forRoot(),
-    NgxsLoggerPluginModule.forRoot()
-
+    NgxsLoggerPluginModule.forRoot(),
+    BrowserAnimationsModule,
+    MatDialogModule,
+    ReactiveFormsModule,
+    QuillModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]
